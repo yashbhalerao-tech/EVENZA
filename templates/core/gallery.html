@@ -1,0 +1,454 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'images/newlogotext-removebg-preview.png' %}" type="image/x-icon">
+    <title> EVENZA </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+     <link rel="stylesheet" href="{% static 'css/gallery.css' %}">
+
+
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="/" class="logo">EVEN<span>ZA</span></a>
+                <div class="nav-links">
+                    <a href="/">Home</a>
+                    <a href="/">Events</a>
+                    <a href="/core/gallery/" class="active">Gallery</a>
+                    <a href="/core/about/">About</a>
+                    <a href="/core/contact/">Contact</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="gallery-hero">
+        <div class="hero-content">
+            <h1>Event Gallery</h1>
+            <p>Relive the most memorable moments from our tech events and celebrations</p>
+            <a href="#gallery" class="btn btn-primary">Explore Gallery</a>
+        </div>
+    </section>
+
+    <!-- Gallery Controls -->
+    <section class="gallery-controls">
+        <div class="container">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All Events</button>
+                <button class="filter-btn" data-filter="hackathon">Hackathons</button>
+                <button class="filter-btn" data-filter="workshop">Workshops</button>
+                <button class="filter-btn" data-filter="seminar">Seminars</button>
+                <button class="filter-btn" data-filter="cultural">Cultural</button>
+            </div>
+            
+            <div class="search-box">
+                <input type="text" placeholder="Search events by name, date or keyword...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Grid -->
+    <section class="gallery-grid" id="gallery">
+        <div class="container">
+            <div class="grid-container">
+                <!-- Event 1 -->
+                <div class="gallery-item" data-category="hackathon">
+                    <div class="event-badge">Hackathon</div>
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80" alt="CodeFest 2023" class="gallery-img">
+                    <div class="item-overlay">
+                        <h3>CodeFest 2023</h3>
+                        <p><i class="fas fa-calendar-alt"></i> 15-16 April 2023</p>
+                    </div>
+                </div>
+                
+                <!-- Event 2 -->
+                <div class="gallery-item" data-category="workshop">
+                    <div class="event-badge">Workshop</div>
+                    <img src="https://images.unsplash.com/photo-1581094794329-efd8b51f0b8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80" alt="AI Workshop" class="gallery-img">
+                    <div class="item-overlay">
+                        <h3>AI Workshop</h3>
+                        <p><i class="fas fa-calendar-alt"></i> 22 March 2023</p>
+                    </div>
+                </div>
+                
+                <!-- Event 3 -->
+                <div class="gallery-item" data-category="cultural">
+                    <div class="event-badge">Cultural</div>
+                    <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80" alt="Cultural Fest" class="gallery-img">
+                    <div class="item-overlay">
+                        <h3>Cultural Fest</h3>
+                        <p><i class="fas fa-calendar-alt"></i> 10-12 February 2023</p>
+                    </div>
+                </div>
+                
+                <!-- Event 4 -->
+                <div class="gallery-item" data-category="seminar">
+                    <div class="event-badge">Seminar</div>
+                    <img src="https://images.unsplash.com/photo-1589652717521-10c0d092dea9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80" alt="Tech Leaders Summit" class="gallery-img">
+                    <div class="item-overlay">
+                        <h3>Tech Leaders Summit</h3>
+                        <p><i class="fas fa-calendar-alt"></i> 5 January 2023</p>
+                    </div>
+                </div>
+                
+                <!-- Event 5 -->
+                <div class="gallery-item" data-category="hackathon">
+                    <div class="event-badge">Hackathon</div>
+                    <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80" alt="CyberSec Challenge" class="gallery-img">
+                    <div class="item-overlay">
+                        <h3>CyberSec Challenge</h3>
+                        <p><i class="fas fa-calendar-alt"></i> 18-19 November 2022</p>
+                    </div>
+                </div>
+                
+                <!-- Event 6 -->
+                <div class="gallery-item" data-category="workshop">
+                    <div class="event-badge">Workshop</div>
+                    <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80" alt="Web Dev Bootcamp" class="gallery-img">
+                    <div class="item-overlay">
+                        <h3>Web Dev Bootcamp</h3>
+                        <p><i class="fas fa-calendar-alt"></i> 8 October 2022</p>
+                    </div>
+                </div>
+                
+                <!-- Event 7 -->
+                <div class="gallery-item" data-category="seminar">
+                    <div class="event-badge">Seminar</div>
+                    <img src="https://images.unsplash.com/photo-1463171379579-3fdfb86d6285?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80" alt="Future of Blockchain" class="gallery-img">
+                    <div class="item-overlay">
+                        <h3>Future of Blockchain</h3>
+                        <p><i class="fas fa-calendar-alt"></i> 14 September 2022</p>
+                    </div>
+                </div>
+                
+                <!-- Event 8 -->
+                <div class="gallery-item" data-category="cultural">
+                    <div class="event-badge">Cultural</div>
+                    <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80" alt="Annual Fest" class="gallery-img">
+                    <div class="item-overlay">
+                        <h3>Annual College Fest</h3>
+                        <p><i class="fas fa-calendar-alt"></i> 20-22 August 2022</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Banner -->
+    <section class="stats-banner">
+        <div class="container">
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number">48+</div>
+                    <div class="stat-text">Events Hosted</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">3200+</div>
+                    <div class="stat-text">Participants</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">120+</div>
+                    <div class="stat-text">Student Organizers</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">4</div>
+                    <div class="stat-text">Years Running</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Highlights -->
+    <section class="video-highlights">
+        <div class="container">
+            <div class="section-title">
+                <h2>Event Highlights</h2>
+                <p>Watch moments that made our events special</p>
+            </div>
+            
+            <div class="videos-container">
+                <div class="video-card">
+                    <div class="video-thumb">
+                        <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80" alt="CodeFest Highlights">
+                        <div class="play-btn">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h3>CodeFest 2023 Highlights</h3>
+                        <p>Relive the 48-hour coding marathon where students built innovative solutions to real-world problems.</p>
+                        <div class="video-meta">
+                            <i class="fas fa-calendar-alt"></i> 15-16 April 2023 • 4:30
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-thumb">
+                        <img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80" alt="AI Workshop Recap">
+                        <div class="play-btn">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h3>AI Workshop Recap</h3>
+                        <p>Highlights from our hands-on AI workshop featuring industry experts and practical sessions.</p>
+                        <div class="video-meta">
+                            <i class="fas fa-calendar-alt"></i> 22 March 2023 • 8:15
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-thumb">
+                        <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80" alt="Cultural Fest Moments">
+                        <div class="play-btn">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h3>Cultural Fest 2023</h3>
+                        <p>Experience the vibrant performances, competitions, and celebrations from our annual fest.</p>
+                        <div class="video-meta">
+                            <i class="fas fa-calendar-alt"></i> 10-12 February 2023 • 12:45
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">EVENZA</div>
+                <div class="footer-tagline">By the students • For the students</div>
+                <p>Computer Science Department Event Management System</p>
+                
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+                
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="#">Events</a>
+                    <a href="gallery.html">Gallery</a>
+                    <a href="about.html">About Us</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+                
+                <div class="copyright">
+                    &copy; 2023 EVENZA - Created by CS Students at GPK College. All Rights Reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal" id="imageModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Event Title</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-image">
+                    <img id="modal-img" src="" alt="Event Image">
+                </div>
+                <div class="modal-info">
+                    <h4>About This Event</h4>
+                    <p id="modal-description">Event description will appear here. This is a placeholder text for the event details that will be dynamically loaded when a gallery item is clicked.</p>
+                    
+                    <div class="event-details">
+                        <div class="detail-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <div>
+                                <strong>Date:</strong> <span id="modal-date">DD Month YYYY</span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <strong>Time:</strong> <span id="modal-time">HH:MM AM/PM</span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <strong>Venue:</strong> <span id="modal-venue">Event Location</span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-users"></i>
+                            <div>
+                                <strong>Participants:</strong> <span id="modal-participants">XXX+ students</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Gallery Filtering
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    button.classList.add('active');
+                    
+                    const filter = button.getAttribute('data-filter');
+                    
+                    galleryItems.forEach(item => {
+                        if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Modal functionality
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modal-img');
+            const modalTitle = document.getElementById('modal-title');
+            const modalDescription = document.getElementById('modal-description');
+            const modalDate = document.getElementById('modal-date');
+            const modalTime = document.getElementById('modal-time');
+            const modalVenue = document.getElementById('modal-venue');
+            const modalParticipants = document.getElementById('modal-participants');
+            const closeBtn = document.querySelector('.close-btn');
+            
+            // Sample event data (in a real app, this would come from a database)
+            const eventData = {
+                "CodeFest 2023": {
+                    description: "A 48-hour hackathon where Computer Science students developed innovative solutions to real-world problems. Participants worked in teams to create web and mobile applications addressing social and environmental challenges.",
+                    date: "15-16 April 2023",
+                    time: "10:00 AM - 6:00 PM",
+                    venue: "CS Department Labs, GPK College",
+                    participants: "200+"
+                },
+                "AI Workshop": {
+                    description: "An intensive workshop on Artificial Intelligence fundamentals and applications. Participants learned about machine learning algorithms, neural networks, and practical AI implementation using Python.",
+                    date: "22 March 2023",
+                    time: "9:00 AM - 4:00 PM",
+                    venue: "Tech Innovation Center",
+                    participants: "120"
+                },
+                "Cultural Fest": {
+                    description: "Annual college cultural festival featuring dance competitions, music performances, art exhibitions, and food stalls. A celebration of diversity and talent across departments.",
+                    date: "10-12 February 2023",
+                    time: "9:00 AM - 9:00 PM",
+                    venue: "Main Campus Grounds",
+                    participants: "800+"
+                },
+                "Tech Leaders Summit": {
+                    description: "A seminar featuring industry leaders discussing emerging technologies, career opportunities in tech, and the future of software development.",
+                    date: "5 January 2023",
+                    time: "2:00 PM - 5:00 PM",
+                    venue: "Auditorium Hall",
+                    participants: "300"
+                },
+                "CyberSec Challenge": {
+                    description: "A cybersecurity competition where students solved security challenges, identified vulnerabilities, and demonstrated ethical hacking techniques.",
+                    date: "18-19 November 2022",
+                    time: "10:00 AM - 4:00 PM",
+                    venue: "CS Department Labs",
+                    participants: "150"
+                },
+                "Web Dev Bootcamp": {
+                    description: "Hands-on workshop covering modern web development technologies including HTML5, CSS3, JavaScript, and responsive design principles.",
+                    date: "8 October 2022",
+                    time: "9:00 AM - 3:00 PM",
+                    venue: "Computer Lab 3",
+                    participants: "80"
+                },
+                "Future of Blockchain": {
+                    description: "Expert panel discussion on blockchain technology, cryptocurrencies, and decentralized applications. Exploring the potential beyond Bitcoin.",
+                    date: "14 September 2022",
+                    time: "3:00 PM - 5:00 PM",
+                    venue: "Seminar Hall 2",
+                    participants: "180"
+                },
+                "Annual College Fest": {
+                    description: "Three-day annual college festival with competitions, performances, guest artists, and cultural showcases from across India.",
+                    date: "20-22 August 2022",
+                    time: "10:00 AM - 10:00 PM",
+                    venue: "Main Campus",
+                    participants: "1200+"
+                }
+            };
+            
+            // Add click event to gallery items
+            galleryItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const imgSrc = item.querySelector('img').src;
+                    const title = item.querySelector('h3').textContent;
+                    
+                    // Set modal content
+                    modalImg.src = imgSrc;
+                    modalTitle.textContent = title;
+                    
+                    // Get event data
+                    const eventInfo = eventData[title] || {
+                        description: "Detailed information about this event.",
+                        date: "DD Month YYYY",
+                        time: "HH:MM AM/PM",
+                        venue: "Event Location",
+                        participants: "XXX+"
+                    };
+                    
+                    modalDescription.textContent = eventInfo.description;
+                    modalDate.textContent = eventInfo.date;
+                    modalTime.textContent = eventInfo.time;
+                    modalVenue.textContent = eventInfo.venue;
+                    modalParticipants.textContent = eventInfo.participants + " students";
+                    
+                    // Show modal
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+            
+            // Close modal
+            closeBtn.addEventListener('click', () => {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+            
+            // Close modal when clicking outside content
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

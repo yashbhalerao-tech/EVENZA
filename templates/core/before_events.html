@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'images/newlogotext-removebg-preview.png' %}" type="image/x-icon">
+    <title> EVENZA </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+
+    <link rel="stylesheet" href="{% static 'css/b_events.css' %}">
+
+</head>
+
+<body>
+    <!-- Added header from home.html -->
+    <header>
+        <a href="#" class="logo">
+            <i class="fas fa-calendar-star"></i>
+            <div class="logo-text">
+                <div class="logo-top">EVENZA</div>
+                <!-- <div class="logo-bottom">SPHERE</div> -->
+            </div>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="#">Events</a></li>
+                <li><a href="{% url 'gallery' %}">Gallery</a></li>
+                <li><a href="/core/about/">About</a></li>
+                <li><a href="/core/index/">Contact</a></li>
+            </ul>
+        </nav>
+
+    </header>
+
+    <div class="container">
+        <div class="content">
+
+
+            <div class="search-container">
+                <input type="text" placeholder="Search for events, categories, or locations...">
+                <i class="fas fa-search"></i>
+            </div>
+
+            <!-- Upcoming Events -->
+            <h2 class="section-title">Upcoming Events</h2>
+            <div class="events-grid" id="upcoming-grid">
+                {% if upcoming_events %}
+                {% for event in upcoming_events %}
+                <div class="event-card" data-title="{{ event.title|lower }}"
+                    data-description="{{ event.description|lower }}" data-location="{{ event.location|lower }}">
+
+
+                    <div class="event-image"
+                        style="background-image: url('{% if event.image %}{{ event.image.url }}{% else %}{% static 'images/logo.jpg' %}{% endif %}');">
+
+
+                        {% if event.is_completed %}
+                        <div class="event-status completed">Completed</div>
+                        {% else %}
+                        <div class="event-status upcoming">Upcoming</div>
+                        {% endif %}
+                        <div class="event-date">
+                            {{ event.date|date:"M d, Y" }} | {{ event.date|time:"g:i A" }}
+                        </div>
+                    </div>
+                    <div class="event-content">
+                        <h3 class="event-title">
+                            <i class="fas fa-calendar-star"></i> {{ event.title }}
+                        </h3>
+                        <div class="event-details">
+                            <div class="event-detail">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>{{ event.location }}</span>
+                            </div>
+                            <div class="event-detail">
+                                <i class="fas fa-tag"></i>
+                                <span>{{ event.get_category_display }}</span>
+                            </div>
+                        </div>
+                        <p class="event-description">{{ event.description|truncatechars:150 }}</p>
+                        <div class="event-actions">
+                            <a href="/user/login/"> <button class="btn btn-primary">Register</button></a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="no-events">
+                    <p>No upcoming events at the moment. Check back soon!</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- All Events -->
+            <h2 class="section-title">All Events</h2>
+            <div class="spinner" id="events-spinner"></div>
+            <div class="events-grid" id="all-events-grid">
+                {% if all_events %}
+                {% for event in all_events %}
+                <div class="event-card" data-title="{{ event.title|lower }}"
+                    data-description="{{ event.description|lower }}" data-location="{{ event.location|lower }}"
+                    data-date="{{ event.date|date:'Y-m-d' }}">
+
+
+                    <div class="event-image"
+                        style="background-image: url('{% if event.image %}{{ event.image.url }}{% else %}{% static 'images/logo.jpg' %}{% endif %}');">
+
+
+
+                        {% if event.is_completed %}
+                        <div class="event-status completed">Completed</div>
+                        {% else %}
+                        <div class="event-status upcoming">Upcoming</div>
+                        {% endif %}
+                        <div class="event-date">
+                            {{ event.date|date:"M d, Y" }} | {{ event.date|time:"g:i A" }}
+                        </div>
+                    </div>
+                    <div class="event-content">
+                        <h3 class="event-title">
+                            <i class="fas fa-calendar-star"></i> {{ event.title }}
+                        </h3>
+                        <div class="event-details">
+                            <div class="event-detail">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>{{ event.location }}</span>
+                            </div>
+                            <div class="event-detail">
+                                <i class="fas fa-tag"></i>
+                                <span>{{ event.get_category_display }}</span>
+                            </div>
+                        </div>
+                        <p class="event-description">{{ event.description|truncatechars:150 }}</p>
+                        <div class="event-actions">
+                            <a href="/user/login/"> <button class="btn btn-primary">Register</button></a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="no-events">
+                    <p>No events available at the moment. Check back soon!</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <footer>
+                <p>© 2025 EVENZA. All rights reserved.</p>
+                <!-- <p>Discover unforgettable experiences with us</p> -->
+            </footer>
+        </div>
+
+        <script>
+            // Event card hover effect enhancement
+            const eventCards = document.querySelectorAll('.event-card');
+
+            eventCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-10px)';
+                    card.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 140, 0, 0.3)';
+                    card.style.borderColor = 'rgba(255, 140, 0, 0.3)';
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0)';
+                    card.style.boxShadow = 'var(--shadow)';
+                    card.style.borderColor = 'var(--glass-border)';
+                });
+            });
+
+            // Search functionality
+            const searchInput = document.querySelector('.search-container input');
+
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const eventCards = document.querySelectorAll('.event-card');
+
+                // Show spinner while searching
+                const spinner = document.getElementById('events-spinner');
+                spinner.style.display = 'block';
+
+                setTimeout(() => {
+                    eventCards.forEach(card => {
+                        const title = card.dataset.title;
+                        const description = card.dataset.description;
+                        const location = card.dataset.location;
+
+                        if (title.includes(searchTerm) ||
+                            description.includes(searchTerm) ||
+                            location.includes(searchTerm)) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+
+                    // Hide spinner after search is complete
+                    spinner.style.display = 'none';
+                }, 300);
+            });
+
+            // Animation for section titles
+            const sectionTitles = document.querySelectorAll('.section-title');
+            sectionTitles.forEach(title => {
+                title.addEventListener('click', () => {
+                    title.style.color = 'var(--accent)';
+                    setTimeout(() => {
+                        title.style.color = '';
+                    }, 500);
+                });
+            });
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Initialize the page
+            document.addEventListener('DOMContentLoaded', function () {
+                // Add animation to header
+                const header = document.querySelector('header');
+                setTimeout(() => {
+                    header.style.transform = 'translateY(0)';
+                    header.style.opacity = '1';
+                }, 100);
+            });
+        </script>
+</body>
+
+</html>

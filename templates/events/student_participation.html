@@ -1,0 +1,183 @@
+<!-- student_participation.html -->
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="{% static 'images/newlogotext-removebg-preview.png' %}" type="image/x-icon">
+    <title>{{ student.student_name }}'s Participation</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        .header h1 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .header p {
+            color: #666;
+            font-size: 18px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .section-title {
+            color: #2c3e50;
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
+            margin-bottom: 20px;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .data-table th, .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .data-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .data-table tr:hover {
+            background-color: #f9f9f9;
+        }
+        .action-btn {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        .view-btn {
+            background-color: #3498db;
+            color: white;
+        }
+        .view-btn:hover {
+            background-color: #2980b9;
+        }
+        .no-events {
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #7f8c8d;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        .back-btn:hover {
+            background-color: #95a5a6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>{{ student.student_name }}'s Event Participation</h1>
+            <p>Enrollment: {{ student.Enrollment }}</p>
+        </div>
+        
+        <!-- Upcoming Events Section -->
+        <div class="section">
+            <h2 class="section-title">Upcoming Events</h2>
+            {% if upcoming_registrations %}
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Event Title</th>
+                            <th>Date</th>
+                            <th>Location</th>
+                            <th>Participation Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for reg in upcoming_registrations %}
+                        <tr>
+                            <td>{{ reg.event.title }}</td>
+                            <td>{{ reg.event.date|date:"M d, Y H:i" }}</td>
+                            <td>{{ reg.event.location }}</td>
+                            <td>{{ reg.participation_date|date:"M d, Y H:i" }}</td>
+                            <td>
+                                <a href="{% url 'view_event' reg.event.id %}" class="action-btn view-btn">View Event</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="no-events">No upcoming events registered</p>
+            {% endif %}
+        </div>
+        
+        <!-- Past Events Section -->
+        <div class="section">
+            <h2 class="section-title">Attended Events</h2>
+            {% if attended_events %}
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Event Title</th>
+                            <th>Date</th>
+                            <th>Location</th>
+                            <th>Participation Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for reg in attended_events %}
+                        <tr>
+                            <td>{{ reg.event.title }}</td>
+                            <td>{{ reg.event.date|date:"M d, Y H:i" }}</td>
+                            <td>{{ reg.event.location }}</td>
+                            <td>{{ reg.participation_date|date:"M d, Y H:i" }}</td>
+                            <td>
+                                <a href="{% url 'view_event' reg.event.id %}" class="action-btn view-btn">View Event</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="no-events">No attended events</p>
+            {% endif %}
+        </div>
+        
+        <a href="{% url 'admin_dashboard' %}" class="back-btn">Back to Students</a>
+    </div>
+</body>
+</html>

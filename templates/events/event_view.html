@@ -1,0 +1,85 @@
+<!-- admin_event_detail.html -->
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="{% static 'images/newlogotext-removebg-preview.png' %}" type="image/x-icon">
+
+    <title>{{ event.title }}</title>
+    <style>
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .event-header { text-align: center; margin-bottom: 30px; }
+        h1 { color: #ff7700; }
+        .event-details { background: #c4c4ce; padding: 20px; border-radius: 10px; margin-bottom: 30px; }
+        .participants { background: #cfcfda; padding: 20px; border-radius: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #333; }
+        th { background-color: #515664; color: #ff7700; }
+        .btn { 
+            display: inline-block; 
+            padding: 10px 20px; 
+            background: #ff7700; 
+            color: #fff; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            text-decoration: none;
+            margin-top: 20px;
+        }
+        .btn:hover { background: #e56e00; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="event-header">
+            <h1>{{ event.title }}</h1>
+            <p>Date: {{ event.date }}</p>
+            <p>Location: {{ event.location }}</p>
+        </div>
+        
+        <div class="event-details">
+            <h2>Description</h2>
+            <p>{{ event.description }}</p>
+        </div>
+        
+        <div class="participants">
+            <h2>Participants ({{ total_participants }})</h2>
+            {% if participations %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Attended</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in participations %}
+                    <tr>
+                        <td>{{ p.student.student_name }}</td>
+                        
+                        <td>
+                            {% if p.attended %}
+                                <span style="color: green;">Yes</span>
+                            {% else %}
+                                <span style="color: orange;">No</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <div style="margin-top: 15px;">
+                <strong>Attended:</strong> {{ attended_count }} / {{ total_participants }}
+            </div>
+            {% else %}
+            <p>No participants registered for this event yet.</p>
+            {% endif %}
+        </div>
+        
+        <a href="{% url 'mark_attendance' event.id %}" class="btn">Mark Attendance</a>
+        <a href="{% url 'admin_dashboard' %}" class="btn">Back to Dashboard</a>
+    </div>
+</body>
+</html>

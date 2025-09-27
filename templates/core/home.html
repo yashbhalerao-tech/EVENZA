@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'images/newlogotext-removebg-preview.png' %}" type="image/x-icon">
+    <title>EVENZA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+</head>
+
+<body>
+    <!-- Vanta.js Background -->
+    <div id="vanta-bg"></div>
+
+    <!-- Header/Navigation -->
+    <header>
+        <a href="/" class="logo">
+            <img src="{% static 'images/newlogotext-removebg-preview.png' %}" alt="EVENZA Logo">
+        </a>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/b_events/">Events</a></li>
+                <li><a href="/core/gallery/">Gallery</a></li>
+                <li><a href="/core/about/">About</a></li>
+                <li><a href="/core/contact/">Contact</a></li>
+            </ul>
+        </nav>
+        <a href="{% url 'login' %}" class="login_a"><button class="nav-btn">Login</button></a>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Where Every Event Finds Its Spark</h1>
+            <p>Computer Science Department Event Management Platform</p>
+            <div class="hero-tagline">
+                <span>By the students</span> • <span>For the students</span>
+            </div>
+            <div class="hero-btns">
+                <a href="/b_events/" class="btn btn-primary">View Events</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Department Highlight Section -->
+    <section class="department">
+        <div class="container">
+            <div class="department-intro">
+                <h2 class="section-title">About EVENZA</h2>
+                <p>EVENZA is the event hub created by and for Computer Science students. We curate dynamic experiences
+                    across tech, cultural, coding, and campus life – fostering innovation, collaboration, and community
+                    spirit.</p>
+
+                <p class="student-led">Still a student-led initiative. Still home for the CS tribe.</p>
+            </div>
+
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>Tech Event Planning</h3>
+                    <p>From hackathons to tech talks, we handle every detail to ensure events run smoothly.</p>
+                    <div class="student-badge">Student Managed</div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Innovation Focused</h3>
+                    <p>We bring fresh ideas to make tech events stand out and create lasting impact.</p>
+                    <div class="student-badge">Student Ideas</div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>CS Community</h3>
+                    <p>Designed exclusively for Computer Science students to connect, learn, and grow.</p>
+                    <div class="student-badge">Student Community</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">Why CS Students Love EVENZA</h2>
+            <div class="testimonials-container">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"The perfect platform for CS students to gain real event management
+                        experience while building our community."</p>
+                    <div class="testimonial-author">
+                        <div class="author-info">
+                            <h4>Project Team</h4>
+                            <p>EVENZA Creators</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"A student-led hub that understands exactly what our department needs -
+                        from hackathons to cultural fests!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-info">
+                            <h4>Our Vision</h4>
+                            <p>For the CS Community</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Where tech skills meet campus life - designed to help students connect,
+                        learn, and grow together."</p>
+                    <div class="testimonial-author">
+                        <div class="author-info">
+                            <h4>The Goal</h4>
+                            <p>Future Development</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="disclaimer-note">* Currently in development by 3rd year CS students</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <div class="footer-logo">
+                    <i class="fas fa-calendar-star"></i>
+                    EVENZA
+                </div>
+                <div class="footer-tagline">
+                    By the students • For the students
+                </div>
+                <p class="footer-desc">
+                    Computer Science Department Event Management System
+                </p>
+                
+            </div>
+
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Events</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Event Gallery</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Contact Us</h3>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-text">
+                            <strong>Email</strong><br>
+                            evenza.zone@gmail.com
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <a href="https://www.instagram.com/evenza.zone/#" title="Instagram"><i
+                                    class="fab fa-instagram"></i></a>
+                        </div>
+                        <div class="contact-text">
+                            <a href='https://www.instagram.com/evenza.zone/#'><strong>Instagram</strong></a><br>
+                            <a href='https://www.instagram.com/evenza.zone/#'>@evenza.zone</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-text">
+                            <strong>Location</strong><br>
+                            CO Department, GPK
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <p>&copy; 2025 EVENZA - <span class="student-mention">Created by CS Students</span>. All Rights Reserved.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Vanta JS and Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta/dist/vanta.net.min.js"></script>
+
+    <script>
+        // Initialize Vanta.js background
+        window.addEventListener('DOMContentLoaded', () => {
+            VANTA.NET({
+                el: "#vanta-bg",
+                mouseControls: true,
+                touchControls: true,
+                gyroControls: false,
+                minHeight: 200.00,
+                minWidth: 200.00,
+                scale: 1.00,
+                scaleMobile: 1.00,
+                color: 0xff8c00,
+                backgroundColor: 0x121212,
+                points: 14.00,
+                maxDistance: 26.00,
+                spacing: 18.00
+            });
+        });
+    </script>
+</body>
+
+</html>

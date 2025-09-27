@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="icon" href="{% static 'images/newlogotext-removebg-preview.png' %}" type="image/x-icon">
+    <title> EVENZA </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="{% static 'css/student_dashboard.css' %}">
+
+  
+</head>
+<body>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">EVENZA</div>
+                <div class="nav-links">
+                    <a href="/">Home</a>
+                    <a href="/a_events/">Events</a>
+                    <a href="/core/gallery/">Gallery</a>
+                    <a href="/core/about/">About</a>
+                    <a href="/core/contact/">Contact</a>
+
+                    <form action="/logout/" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">Logout</button>
+                    </form>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>Student Dashboard</h1>
+            <p class="welcome-message">Welcome back, {{ student.name }}! Here's what's happening in your event world.</p>
+        </div>
+
+        <div class="dashboard-tabs">
+            {% comment %} <button class="tab-btn active" data-tab="all-events">All Events</button> {% endcomment %}
+            <button class="tab-btn active" data-tab="my-participation">My Participation</button>
+            <button class="tab-btn" data-tab="attended-events">Attended Events</button>
+            <button class="tab-btn" data-tab="announcements">Announcements</button>
+        </div>
+
+        
+
+        <div id="my-participation" class="tab-content active">
+    <h2>My Registered Events</h2>
+    <div class="events-grid">
+        {% for participation in my_participations %}
+        <div class="event-card">
+            <div class="event-image">
+                {% if participation.event.image %}
+                    <img src="{{ participation.event.image.url }}" alt="{{ participation.event.title }}">
+                {% else %}
+                    <img src="#" alt="Default event image">
+                {% endif %}
+            </div>
+            <div class="event-content">
+                <span class="event-date">{{ participation.event.date|date:"M d, Y" }}</span>
+                <h3 class="event-title">{{ participation.event.title }}</h3>
+                <span class="event-category">Status: {% if participation.attended %}Attended{% else %}Registered{% endif %}</span>
+                <p>Registered on: {{ participation.participation_date|date:"M d, Y" }}</p>
+                <div class="event-actions">
+                    <span class="registered-badge">Registered</span>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="no-events">
+            <p>You haven't participated in any events yet.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+
+
+        <div id="attended-events" class="tab-content">
+            <h2>Past Events</h2>
+            <div class="events-grid">
+                {% for participation in attended_events %}
+                <div class="event-card">
+                    <div class="event-image">
+                {% if participation.event.image %}
+                    <img src="{{ participation.event.image.url }}" alt="{{ participation.event.title }}">
+                {% else %}
+                    <img src="#" alt="Default event image">
+                {% endif %}
+            </div>
+                    <div class="event-content">
+                        <span class="event-date">{{ participation.event.date|date:"M d, Y" }}</span>
+                        <h3 class="event-title">{{ participation.event.title }}</h3>
+                        <span class="event-category">{{ participation.event.location }}</span>
+                        <p>Attended on: {{ participation.event.date|date:"M d, Y" }}</p>
+                        {% comment %} <div class="event-actions">
+                            <button class="feedback-btn" data-event-id="{{ participation.event.id }}">Give Feedback</button>
+                        </div> {% endcomment %}
+                    </div>
+                </div>
+                {% empty %}
+                <div class="no-events">
+                    <p>You haven't attended any events yet.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div id="announcements" class="tab-content">
+            <h2>Latest Announcements</h2>
+            {% for announcement in announcements %}
+            <div class="announcement-card">
+                <h3 class="announcement-title">{{ announcement.title }}</h3>
+                <span class="announcement-date">{{ announcement.created_at|date:"M d, Y" }}</span>
+                <p class="announcement-message">{{ announcement.content }}</p>
+            </div>
+            {% empty %}
+            <div class="announcement-card">
+                <h3 class="announcement-title">No Announcements</h3>
+                <p class="announcement-message">There are currently no announcements.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 EVENZA. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Feedback Modal -->
+    <div id="feedbackModal" class="modal" style="display: none;">
+        <div class="modal-content" style="background: var(--darker); padding: 2rem; border-radius: 20px; max-width: 500px; width: 90%;">
+            <h3 style="margin-bottom: 1rem; color: var(--accent);">Submit Feedback</h3>
+            <form id="feedbackForm">
+                <input type="hidden" id="feedbackEventId">
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label for="feedbackRating" style="color: var(--accent);">Rating</label>
+                    <select id="feedbackRating" class="form-control" style="width: 100%; padding: 0.8rem; background: rgba(255, 255, 255, 0.1); border: 1px solid var(--glass-border); border-radius: 5px; color: var(--light);">
+                        <option value="5">Excellent</option>
+                        <option value="4">Good</option>
+                        <option value="3">Average</option>
+                        <option value="2">Below Average</option>
+                        <option value="1">Poor</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label for="feedbackComments" style="color: var(--accent);">Comments</label>
+                    <textarea id="feedbackComments" class="form-control" rows="5" style="width: 100%; padding: 0.8rem; background: rgba(255, 255, 255, 0.1); border: 1px solid var(--glass-border); border-radius: 5px; color: var(--light);"></textarea>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 1rem;">
+                    <button type="button" id="cancelFeedback" class="action-btn edit-btn" style="padding: 0.8rem 1.5rem; border: none; border-radius: 50px; cursor: pointer;">Cancel</button>
+                    <button type="submit" class="submit-btn" style="background: var(--gold-gradient); color: var(--dark); border: none; padding: 0.8rem 1.5rem; border-radius: 50px; cursor: pointer; font-weight: 600;">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons and contents
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Registration button functionality
+            const registerButtons = document.querySelectorAll('.register-btn');
+            registerButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    if (this.classList.contains('registered')) {
+                        e.preventDefault();
+                    }
+                });
+            });
+            
+            // Feedback button functionality
+            const feedbackButtons = document.querySelectorAll('.feedback-btn');
+            const feedbackModal = document.getElementById('feedbackModal');
+            const feedbackForm = document.getElementById('feedbackForm');
+            const cancelFeedback = document.getElementById('cancelFeedback');
+            
+            feedbackButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const eventId = this.getAttribute('data-event-id');
+                    document.getElementById('feedbackEventId').value = eventId;
+                    feedbackModal.style.display = 'flex';
+                });
+            });
+            
+            cancelFeedback.addEventListener('click', function() {
+                feedbackModal.style.display = 'none';
+            });
+            
+            feedbackForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const eventId = document.getElementById('feedbackEventId').value;
+                const rating = document.getElementById('feedbackRating').value;
+                const comments = document.getElementById('feedbackComments').value;
+                
+                // Here you would typically send this data to your backend
+                // For now, we'll just show a success message
+                showNotification('Feedback submitted successfully!');
+                feedbackModal.style.display = 'none';
+                
+                // Reset form
+                feedbackForm.reset();
+            });
+            
+            // Function to show notification
+            function showNotification(message) {
+                const notification = document.createElement('div');
+                notification.className = 'notification';
+                notification.innerHTML = message;
+                notification.style.position = 'fixed';
+                notification.style.bottom = '20px';
+                notification.style.right = '20px';
+                notification.style.background = 'var(--gold-gradient)';
+                notification.style.color = 'var(--dark)';
+                notification.style.padding = '1rem 2rem';
+                notification.style.borderRadius = '50px';
+                notification.style.zIndex = '1000';
+                notification.style.boxShadow = '0 5px 15px rgba(0,0,0,0.3)';
+                notification.style.animation = 'fadeIn 0.3s ease';
+                notification.style.fontWeight = '600';
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.animation = 'fadeOut 0.3s ease';
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 300);
+                }, 3000);
+            }
+            
+            // Add animation to cards on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.event-card, .announcement-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.5s ease';
+                observer.observe(card);
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === feedbackModal) {
+                    feedbackModal.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!-- mark_attendance.html -->
+ {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="{% static 'images/newlogotext-removebg-preview.png' %}" type="image/x-icon">
+    
+    <title>Mark Attendance - {{ event.title }}</title>
+    <style>
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        h1 { color: #ff7700; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #333; }
+        th { background-color: #16213e; color: #ff7700; }
+        .btn { 
+            display: inline-block; 
+            padding: 10px 20px; 
+            background: #ff7700; 
+            color: #fff; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+        }
+        .btn:hover { background: #e56e00; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mark Attendance for {{ event.title }}</h1>
+        
+        <form method="post">
+            {% csrf_token %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        
+                        <th>Attended</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in participations %}
+                    <tr>
+                        <td>{{ p.student.student_name }}</td>
+                        
+                        <td>
+                            <input type="checkbox" name="attended" 
+                                   value="{{ p.student.id }}"
+                                   {% if p.attended %}checked{% endif %}>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button type="submit" class="btn">Save Attendance</button>
+        </form>
+    </div>
+</body>
+</html>

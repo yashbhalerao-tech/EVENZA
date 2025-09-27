@@ -1,0 +1,483 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'images/newlogotext-removebg-preview.png' %}" type="image/x-icon">
+    <title> EVENZA </title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        /* Global Styles */
+        :root {
+            --primary: #FF8C00;
+            --secondary: #FFA500;
+            --accent: #FFD700;
+            --neon: #FF4500;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --gray: #2d2d2d;
+            --light: #f8f9fa;
+            --glass: rgba(45, 45, 45, 0.7);
+            --glass-light: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            color: var(--light);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Form Container */
+        .form-container {
+            max-width: 800px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 2.5rem;
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, transparent 0%, var(--glass-light) 70%);
+            z-index: -1;
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.2rem;
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+            position: relative;
+        }
+
+        .form-container h2::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--neon));
+            margin: 0.8rem auto;
+            border-radius: 2px;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 1.8rem;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.8rem;
+            color: var(--light);
+            font-weight: 500;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            background: rgba(35, 35, 35, 0.8);
+            color: var(--light);
+            font-size: 1rem;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        /* Calendar Icon for Date Input */
+        .date-input-wrapper {
+            position: relative;
+        }
+
+        .calendar-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        /* Image Upload */
+        .image-upload-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .image-preview {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            object-fit: cover;
+        }
+
+        .current-image-label {
+            color: var(--accent);
+            font-weight: 500;
+            margin-top: 10px;
+        }
+
+        /* Checkbox */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--darker);
+            padding: 15px 35px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: block;
+            /* width: 100%; */
+            margin-top: 1.5rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            /* width: 100%; */
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(255, 140, 0, 0.5);
+        }
+
+        .submit-btn:hover::after {
+            left: 100%;
+        }
+
+        a {
+            text-decoration: none;
+            border: none;
+        }
+        .cancel-btn {
+           background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--darker);
+            padding: 15px 35px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: block;
+            margin-top: 1.5rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            /* box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3); */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cancel-btn:hover {
+            background: rgba(197, 9, 9, 0.5);
+            color: white;
+            border-color: rgba(197, 9, 9, 0.3);
+        }
+
+
+        /* Calendar Styling */
+        .flatpickr-calendar {
+            background: var(--gray) !important;
+            border: 1px solid var(--glass-border) !important;
+            box-shadow: var(--shadow) !important;
+            border-radius: 12px !important;
+            overflow: hidden;
+        }
+
+        .flatpickr-day {
+            color: var(--light) !important;
+        }
+
+        .flatpickr-day.selected, 
+        .flatpickr-day.selected:hover {
+            background: var(--primary) !important;
+            border-color: var(--primary) !important;
+        }
+
+        .flatpickr-day:hover {
+            background: rgba(255, 140, 0, 0.2) !important;
+        }
+
+        .flatpickr-current-month .flatpickr-monthDropdown-months,
+        .flatpickr-current-month input.cur-year {
+            color: var(--light) !important;
+            font-weight: 600;
+        }
+
+        .flatpickr-weekdays {
+            background: rgba(0, 0, 0, 0.2) !important;
+        }
+
+        span.flatpickr-weekday {
+            color: var(--accent) !important;
+            font-weight: 600;
+        }
+
+        .flatpickr-time input {
+            color: var(--light) !important;
+        }
+
+        /* CSRF Notice */
+        .csrf-notice {
+            background: rgba(255, 69, 0, 0.2);
+            border: 1px solid var(--neon);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .csrf-notice h3 {
+            color: var(--neon);
+            margin-bottom: 10px;
+        }
+
+        .csrf-notice p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 1.8rem;
+            }
+            
+            .form-container h2 {
+                font-size: 1.8rem;
+            }
+            
+            .form-group {
+                margin-bottom: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 1.5rem;
+            }
+            
+            .form-container h2 {
+                font-size: 1.6rem;
+            }
+            
+            .form-control {
+                padding: 12px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>{% if event %}Edit Event{% else %}Add New Event{% endif %}</h2>
+        
+        <!-- CSRF Notice -->
+        <!-- <div class="csrf-notice">
+            <h3>CSRF Protection Enabled</h3>
+            <p>Your form is now protected against Cross-Site Request Forgery attacks. The CSRF token has been added to the form.</p>
+        </div> -->
+        
+        <form method="post" enctype="multipart/form-data">
+            <!-- CSRF Token - THIS IS REQUIRED FOR DJANGO FORMS -->
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="title">Event Title</label>
+                <input type="text" id="title" name="title" value="{{ event.title|default:'' }}" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="date">Date & Time</label>
+                <div class="date-input-wrapper">
+                    <input type="text" id="date" name="date" value="{{ event.date|date:'Y-m-d H:i'|default:'' }}" class="form-control" placeholder="Select Date & Time" required>
+                    <span class="calendar-icon">📅</span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" value="{{ event.location|default:'' }}" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Event Image</label>
+                <div class="image-upload-container">
+                    <input type="file" class="form-control" name="image" accept="image/*">
+                    
+                    {% if event.image %}
+                        <div class="image-preview">
+                            <div class="current-image-label">Current Image:</div>
+                            <img src="{{ event.image.url }}" alt="Event image">
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select id="category" name="category" class="form-control" required>
+                    <option value="">Select Category</option>
+                    <option value="TECH" {% if event.category == 'TECH' %}selected{% endif %}>Tech Events</option>
+                    <option value="CULTURAL" {% if event.category == 'CULTURAL' %}selected{% endif %}>Cultural Events</option>
+                    <option value="SEMINAR" {% if event.category == 'SEMINAR' %}selected{% endif %}>Seminars</option>
+                    <option value="WORKSHOP" {% if event.category == 'WORKSHOP' %}selected{% endif %}>Workshops</option>
+                    <option value="LECTURE" {% if event.category == 'LECTURE' %}selected{% endif %}>Guest Lectures</option>
+                    <option value="HACKATHON" {% if event.category == 'HACKATHON' %}selected{% endif %}>Hackathons</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" class="form-control">{{ event.description|default:'' }}</textarea>
+            </div>
+            
+            {% if event %}
+            <div class="form-group">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="is_completed" name="is_completed" {% if event.is_completed %}checked{% endif %}>
+                    <label for="is_completed">Event Completed</label>
+                </div>
+            </div>
+            <input type="hidden" name="event_id" value="{{ event.id }}">
+            {% endif %}
+            
+            <table>
+                <tr>
+            <td>{% if event %}<button type="submit" class="submit-btn">Update Event</button>{% else %}<button type="submit" class="submit-btn">ADD Event</button>
+            {% endif %}</td><td></td><td></td><td></td>
+
+            <td><a href="{% url 'admin_dashboard' %}" class="cancel-btn">Cancel</a></td>
+            </tr>
+        </table>
+
+        </form>
+    </div>
+
+    <!-- JavaScript for calendar functionality -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        // Initialize flatpickr
+        flatpickr("#date", {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+            minDate: "today",
+            time_24hr: true,
+            defaultDate: "{{ event.date|date:'Y-m-d H:i'|default:'' }}",
+            minuteIncrement: 15
+        });
+
+        // Image preview functionality
+        const imageInput = document.querySelector('input[name="image"]');
+        
+        imageInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                const previewContainer = document.querySelector('.image-preview');
+                
+                // Create preview container if it doesn't exist
+                if (!previewContainer) {
+                    const container = document.createElement('div');
+                    container.className = 'image-preview';
+                    this.parentNode.appendChild(container);
+                }
+                
+                reader.onload = function(e) {
+                    const previewContainer = document.querySelector('.image-preview');
+                    previewContainer.innerHTML = `
+                        <div class="current-image-label">New Image Preview:</div>
+                        <img src="${e.target.result}" alt="Preview">
+                    `;
+                }
+                
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    </script>
+</body>
+</html>

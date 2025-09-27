@@ -1,0 +1,480 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="{% static 'images/newlogotext-removebg-preview.png' %}" type="image/x-icon">
+    <title> EVENZA </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF8C00;
+            --secondary: #FFA500;
+            --accent: #FFD700;
+            --neon: #FF4500;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --gray: #2d2d2d;
+            --light: #f5f5f5;
+            --code-blue: #4da6ff;
+            --glass: rgba(45, 45, 45, 0.7);
+            --glass-light: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --orange-gradient: linear-gradient(45deg, #FF8C00, #FFA500, #FFD700);
+            --orange-text: linear-gradient(45deg, #FF8C00, #FFA500, #FFD700);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Raleway', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(255, 140, 0, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 165, 0, 0.15) 0%, transparent 20%),
+                linear-gradient(135deg, #121212, #2a2a2a, #121212);
+            background-attachment: fixed;
+            color: var(--light);
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .home-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--glass);
+            backdrop-filter: blur(5px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--light);
+            font-size: 1.5rem;
+            text-decoration: none;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .home-button:hover {
+            background: var(--primary);
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 450px;
+            background: rgba(18, 18, 18, 0.85);
+            padding: 3rem;
+            border-radius: 25px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px rgba(255, 140, 0, 0.2);
+            position: relative;
+            z-index: 10;
+            animation: fadeIn 0.8s ease-out;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+        }
+
+        .admin-mode .login-container {
+            background: rgba(23, 18, 18, 0.85);
+            border: 1px solid rgba(255, 69, 0, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .form-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: var(--orange-text);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(255, 140, 0, 0.3);
+        }
+
+        .form-header p {
+            opacity: 0.8;
+            font-size: 1.1rem;
+        }
+
+        .dept-badge {
+            display: inline-block;
+            background: var(--orange-gradient);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 10px;
+            color: var(--darker);
+        }
+
+        .form-group {
+            margin-bottom: 1.8rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: whitesmoke;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--neon);
+            transition: all 0.3s ease;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1.2rem 1.2rem 1.2rem 45px;
+            background: var(--glass);
+            backdrop-filter: blur(5px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--neon);
+            box-shadow: 0 0 0 3px rgba(255, 69, 0, 0.3);
+        }
+
+        .form-control:focus+i {
+            color: var(--accent);
+            transform: translateY(-50%) scale(1.2);
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .btn {
+            background: var(--orange-gradient);
+            color: var(--darker);
+            padding: 1.1rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+            width: 100%;
+            letter-spacing: 0.5px;
+        }
+
+        .admin-mode .btn {
+            background: linear-gradient(45deg, #FF4500, #FF8C00, #FF4500);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 140, 0, 0.6);
+            color: var(--darker);
+        }
+
+        .admin-mode .btn:hover {
+            box-shadow: 0 8px 25px rgba(255, 69, 0, 0.6);
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.3), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+            z-index: -1;
+        }
+
+        .btn:hover::after {
+            transform: translateX(100%);
+        }
+
+        .error-message {
+            color: var(--neon);
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .admin-toggle {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 69, 0, 0.2);
+            color: var(--light);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 69, 0, 0.3);
+        }
+
+        .admin-toggle:hover {
+            background: rgba(255, 69, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .admin-mode .admin-toggle {
+            background: rgba(255, 140, 0, 0.3);
+            border: 1px solid var(--glass-border);
+        }
+
+        .admin-mode .admin-toggle:hover {
+            background: rgba(255, 140, 0, 0.4);
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 2rem 1.5rem;
+            }
+            .form-header h2 {
+                font-size: 2rem;
+            }
+            .home-button {
+                top: 15px;
+                left: 15px;
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            .admin-toggle {
+                bottom: 15px;
+                right: 15px;
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- Home button -->
+    <a href="/" class="home-button" title="Return to Home">
+        <i class="fas fa-home"></i>
+    </a>
+
+    <!-- Login Form Section -->
+    <div class="login-container">
+        <div class="form-header">
+            <h2>Computer Engineering</h2>
+            <p>Department Login Portal</p>
+            <div class="dept-badge">Students Only</div>
+        </div>
+
+        {% if error %}
+        <div class="error-message" id="errorMessage">{{ error }}</div>
+        {% else %}
+        <div class="error-message" id="errorMessage" style="display: none;"></div>
+        {% endif %}
+
+        <form id="loginForm" method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="form-group" id="userGroup">
+                <label for="studentname">Student Name</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-user-graduate"></i>
+                    <input type="text" id="studentname" name="studentname" class="form-control" placeholder="Enter your full name" required>
+                </div>
+            </div>
+
+            <div class="form-group" id="credentialGroup">
+                <label for="credential">Enrollment Number</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-id-card"></i>
+                    <input type="text" id="credential" name="Enrollment" class="form-control" placeholder="Enter your enrollment ID" required>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn">
+                <i class="fas fa-sign-in-alt"></i> Student Login
+            </button>
+        </form>
+    </div>
+
+    <button class="admin-toggle" id="adminToggle">
+        <i class="fas fa-user-shield"></i> Admin Login
+    </button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const adminToggle = document.getElementById('adminToggle');
+            const loginForm = document.getElementById('loginForm');
+            const userGroup = document.getElementById('userGroup');
+            const credentialGroup = document.getElementById('credentialGroup');
+            const studentnameLabel = userGroup.querySelector('label');
+            const credentialLabel = credentialGroup.querySelector('label');
+            const studentnameInput = document.getElementById('studentname');
+            const credentialInput = document.getElementById('credential');
+            const studentnameIcon = userGroup.querySelector('i');
+            const credentialIcon = credentialGroup.querySelector('i');
+            const submitButton = loginForm.querySelector('.btn');
+            const errorMessage = document.getElementById('errorMessage');
+            const body = document.body;
+            
+            let isAdminMode = false;
+            
+            // Admin toggle functionality
+            adminToggle.addEventListener('click', function() {
+                isAdminMode = !isAdminMode;
+                
+                if (isAdminMode) {
+                    // Switch to admin mode
+                    body.classList.add('admin-mode');
+                    studentnameLabel.textContent = 'Admin User';
+                    credentialLabel.textContent = 'Password';
+                    studentnameInput.placeholder = 'Enter admin username';
+                    credentialInput.placeholder = 'Enter your password';
+                    credentialInput.type = 'password';
+                    studentnameIcon.className = 'fas fa-user-cog';
+                    credentialIcon.className = 'fas fa-key';
+                    submitButton.innerHTML = '<i class="fas fa-lock"></i> Admin Login';
+                    adminToggle.innerHTML = '<i class="fas fa-user-graduate"></i> Student Login';
+                } else {
+                    // Switch to student mode
+                    body.classList.remove('admin-mode');
+                    studentnameLabel.textContent = 'Student Name';
+                    credentialLabel.textContent = 'Enrollment Number';
+                    studentnameInput.placeholder = 'Enter your full name';
+                    credentialInput.placeholder = 'Enter your enrollment ID';
+                    credentialInput.type = 'text';
+                    studentnameIcon.className = 'fas fa-user-graduate';
+                    credentialIcon.className = 'fas fa-id-card';
+                    submitButton.innerHTML = '<i class="fas fa-sign-in-alt"></i> Student Login';
+                    adminToggle.innerHTML = '<i class="fas fa-user-shield"></i> Admin Login';
+                }
+                
+                // Clear inputs and error message
+                studentnameInput.value = '';
+                credentialInput.value = '';
+                errorMessage.textContent = '';
+                errorMessage.style.display = 'none';
+            });
+            
+            // Form submission handling
+            loginForm.addEventListener('submit', function(e) {
+                // Clear previous errors
+                errorMessage.textContent = '';
+                errorMessage.style.display = 'none';
+                
+                const studentname = studentnameInput.value.trim();
+                const credential = credentialInput.value.trim();
+                
+                // Client-side validation
+                if (!studentname || !credential) {
+                    e.preventDefault();
+                    showError('Please fill in all fields');
+                    return;
+                }
+                
+                // Additional validation for student mode
+                // if (!isAdminMode && !credential.match(/^CE\d{6}$/)) {
+                //     e.preventDefault();
+                //     showError('Enrollment number must be in CEXXXXXX format');
+                //     return;
+                // }
+            });
+            
+            // Clear error on input
+            studentnameInput.addEventListener('input', clearError);
+            credentialInput.addEventListener('input', clearError);
+            
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                errorMessage.style.color = '#ff6b6b';
+                loginForm.classList.add('shake');
+                setTimeout(() => {
+                    loginForm.classList.remove('shake');
+                }, 500);
+            }
+            
+            function clearError() {
+                errorMessage.textContent = '';
+                errorMessage.style.display = 'none';
+            }
+            
+            // Add shake animation style
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes shake {
+                    0%, 100% { transform: translateX(0); }
+                    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                    20%, 40%, 60%, 80% { transform: translateX(5px); }
+                }
+                .shake {
+                    animation: shake 0.5s ease-in-out;
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Shake form if error exists on page load
+            if (errorMessage.textContent.trim() !== '') {
+                loginForm.classList.add('shake');
+                setTimeout(() => {
+                    loginForm.classList.remove('shake');
+                }, 500);
+            }
+        });
+    </script>
+</body>
+</html>

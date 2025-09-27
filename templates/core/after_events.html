@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'images/newlogotext-removebg-preview.png' %}" type="image/x-icon">
+    <title> EVENZA </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="{% static 'css/a_events.css' %}">
+
+</head>
+
+<body>
+
+    <!-- Added header from home.html -->
+    <header>
+        <a href="#" class="logo">
+            <i class="fas fa-calendar-star"></i>
+            <div class="logo-text">
+                <div class="logo-top">EVENZA</div>
+                <!-- <div class="logo-bottom">SPHERE</div> -->
+            </div>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/b_events/">Events</a></li>
+                <li><a href="{% url 'gallery'%}">Gallery</a></li>
+                <li><a href="/core/about/">About</a></li>
+                <li><a href="/core/index/">Contact</a></li>
+            </ul>
+        </nav>
+
+    </header>
+
+    <!-- Registration Confirmation Popup -->
+    <div class="popup-overlay" id="registrationPopup">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h3 class="popup-title">Confirm Registration</h3>
+                <p class="popup-message" id="popupMessage">Are you sure you want to register for this event?</p>
+            </div>
+            <div class="popup-actions">
+                <button class="popup-btn popup-btn-cancel" id="cancelRegistration">Cancel</button>
+                <button class="popup-btn popup-btn-confirm" id="confirmRegistration">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="search-container">
+            <input type="text" placeholder="Search for events, categories, or locations...">
+            <i class="fas fa-search"></i>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="tabs">
+            <a class="tab {% if active_category == 'upcoming' %}active{% endif %}" href="?category=upcoming">Upcoming
+                Events</a>
+            <a class="tab {% if active_category == 'TECH' %}active{% endif %}" href="?category=TECH">Tech Events</a>
+            <a class="tab {% if active_category == 'CULTURAL' %}active{% endif %}" href="?category=CULTURAL">Cultural
+                Events</a>
+            <a class="tab {% if active_category == 'SEMINAR' %}active{% endif %}" href="?category=SEMINAR">Seminars</a>
+            <a class="tab {% if active_category == 'WORKSHOP' %}active{% endif %}"
+                href="?category=WORKSHOP">Workshops</a>
+            <a class="tab {% if active_category == 'LECTURE' %}active{% endif %}" href="?category=LECTURE">Guest
+                Lectures</a>
+            <a class="tab {% if active_category == 'HACKATHON' %}active{% endif %}"
+                href="?category=HACKATHON">Hackathons</a>
+        </div>
+
+        <h2 class="section-title"><a href="?category=all" class=" {% if category == 'all' %}active{% endif %}">
+                All Events
+            </a></h2>
+
+        <!-- Events Grid -->
+        {% load static %}
+        <div class="events-grid">
+            {% for event in events %}
+            <div class="event-card">
+                <div class="event-image"
+                    style="background-image: url('{% if event.image %}{{ event.image.url }}{% else %}{% static 'images/logo.jpg' %}{% endif %}');">
+                    {% if event.is_completed %}
+                    <div class="event-status completed">Completed</div>
+                    {% else %}
+                    <div class="event-status upcoming">Upcoming</div>
+                    {% endif %}
+                    <div class="event-date">{{ event.date|date:"M d, Y"|upper }}</div>
+                </div>
+                <div class="event-content">
+                    <h3 class="event-title">
+                        <i class="fas fa-calendar-star"></i> {{ event.title }}
+                    </h3>
+                    <div class="event-details">
+                        <div class="event-detail">
+                            <i class="far fa-clock"></i>
+                            <span>{{ event.date|time:"g:i A" }}</span>
+                        </div>
+                        <div class="event-detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>{{ event.location }}</span>
+                        </div>
+                        <div class="event-detail">
+                            <i class="fas fa-tag"></i>
+                            <span>
+                                {% for choice in event.CATEGORY_CHOICES %}
+                                {% if choice.0 == event.category %}
+                                {{ choice.1 }}
+                                {% endif %}
+                                {% endfor %}
+                            </span>
+                        </div>
+                    </div>
+                    <p class="event-description">{{ event.description }}</p>
+
+                    <!-- Update button in event card -->
+                    <div class="event-actions">
+                        {% if event.id in registered_event_ids %}
+                        <button class="btn btn-registered" disabled>Registered</button>
+                        {% else %}
+                        <button class="btn btn-primary register-btn" data-event-id="{{ event.id }}"
+                            data-event-title="{{ event.title }}">Register Now</button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <footer>
+            <div class="container-f">
+                <p>&copy; 2025 EVENZA. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Filter button active state
+        const filterButtons = document.querySelectorAll('.filter-btn');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+            });
+        });
+
+        // Event card hover effect enhancement
+        const eventCards = document.querySelectorAll('.event-card');
+
+        eventCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-10px)';
+                card.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 140, 0, 0.3)';
+                card.style.borderColor = 'rgba(255, 140, 0, 0.3)';
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+                card.style.boxShadow = 'var(--shadow)';
+                card.style.borderColor = 'var(--glass-border)';
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.querySelector('.search-container input');
+
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const eventCards = document.querySelectorAll('.event-card');
+
+            eventCards.forEach(card => {
+                const title = card.querySelector('.event-title').textContent.toLowerCase();
+                const description = card.querySelector('.event-description').textContent.toLowerCase();
+                const location = card.querySelector('.event-detail:nth-child(2) span').textContent.toLowerCase();
+                const category = card.querySelector('.event-detail:nth-child(3) span').textContent.toLowerCase();
+
+                if (title.includes(searchTerm) ||
+                    description.includes(searchTerm) ||
+                    location.includes(searchTerm) ||
+                    category.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Registration functionality with confirmation popup
+        let currentEventId = null;
+        let currentRegisterButton = null;
+        const popup = document.getElementById('registrationPopup');
+        const popupMessage = document.getElementById('popupMessage');
+        const cancelBtn = document.getElementById('cancelRegistration');
+        const confirmBtn = document.getElementById('confirmRegistration');
+
+        // Show popup when register button is clicked
+        document.querySelectorAll('.register-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const eventId = this.dataset.eventId;
+                const eventTitle = this.dataset.eventTitle;
+
+                // Store current event and button
+                currentEventId = eventId;
+                currentRegisterButton = this;
+
+                // Update popup message with event title
+                popupMessage.textContent = `Are you sure you want to register for "${eventTitle}"?`;
+
+                // Show popup
+                popup.style.display = 'flex';
+            });
+        });
+
+        // Handle cancel button
+        cancelBtn.addEventListener('click', function () {
+            popup.style.display = 'none';
+        });
+
+        // Handle confirm button
+        confirmBtn.addEventListener('click', function () {
+            if (currentEventId && currentRegisterButton) {
+                registerForEvent(currentEventId, currentRegisterButton);
+                popup.style.display = 'none';
+            }
+        });
+
+        // Close popup when clicking outside
+        popup.addEventListener('click', function (e) {
+            if (e.target === popup) {
+                popup.style.display = 'none';
+            }
+        });
+
+        function registerForEvent(eventId, buttonElement) {
+            fetch(`/register_event/${eventId}/`, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update button appearance
+                        buttonElement.classList.remove('btn-primary');
+                        buttonElement.classList.add('btn-registered');
+                        buttonElement.textContent = 'Registered';
+                        buttonElement.disabled = true;
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                });
+        }
+    </script>
+</body>
+
+</html>

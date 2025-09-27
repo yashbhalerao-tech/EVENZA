@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+   <link rel="icon" href="{% static 'images/newlogotext-removebg-preview.png' %}" type="image/x-icon">
+    <title> EVENZA </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #FF8C00;
+            --secondary: #FFA500;
+            --accent: #FFD700;
+            --neon: #FF4500;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --gray: #2d2d2d;
+            --light: #f8f9fa;
+            --glass: rgba(45, 45, 45, 0.7);
+            --glass-light: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: var(--light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, transparent 20%, var(--gray) 20%, var(--gray) 80%, transparent 80%, transparent);
+            background-size: 50px 50px;
+            opacity: 0.05;
+            z-index: -1;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 450px;
+            background: var(--glass);
+            padding: 2.5rem;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+            position: relative;
+            z-index: 10;
+            margin: 0 auto;
+        }
+
+        .form-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .form-header h2 {
+            font-size: 1.8rem;
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--primary);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        .message.error {
+            background: rgba(255, 69, 0, 0.2);
+            border: 1px solid var(--neon);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: var(--light);
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.8rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--secondary);
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 15px;
+            background: var(--glass-light);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            color: rgb(246, 246, 246);
+            font-size: 1rem;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.2);
+        }
+
+        small {
+            color: var(--accent);
+            font-size: 0.85rem;
+            display: block;
+            margin-top: 6px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 2rem;
+        }
+
+        .submit-btn, .cancel-btn {
+            flex: 1;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .submit-btn {
+            background: var(--primary);
+            color: var(--darker);
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+        }
+
+        .submit-btn:hover {
+            background: var(--neon);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 69, 0, 0.4);
+        }
+
+        .cancel-btn {
+            background: transparent;
+            color: var(--light);
+            border: 1px solid var(--glass-border);
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .cancel-btn:hover {
+            background: var(--glass-light);
+            border-color: var(--primary);
+        }
+
+        /* Calendar styling */
+        .calendar-container {
+            position: relative;
+        }
+
+        .calendar-icon {
+            position: absolute;
+            right: 15px;
+            top: 42px;
+            color: var(--accent);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .calendar-icon:hover {
+            color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .date-time-picker {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 15px;
+            z-index: 100;
+            width: 300px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+            margin-top: 10px;
+        }
+
+        .date-time-picker.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .calendar-header button {
+            background: var(--glass-light);
+            border: none;
+            color: var(--light);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .calendar-header button:hover {
+            background: var(--primary);
+            color: var(--darker);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .calendar-day {
+            text-align: center;
+            padding: 8px 0;
+            font-size: 0.9rem;
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        .calendar-date {
+            text-align: center;
+            padding: 8px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .calendar-date:hover {
+            background: var(--glass-light);
+        }
+
+        .calendar-date.selected {
+            background: var(--primary);
+            color: var(--darker);
+            font-weight: 600;
+        }
+
+        .calendar-time {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .calendar-time input {
+            flex: 1;
+            padding: 10px;
+            background: var(--glass-light);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: var(--light);
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .calendar-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .calendar-actions button {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .calendar-actions button:first-child {
+            background: var(--primary);
+            color: var(--darker);
+        }
+
+        .calendar-actions button:last-child {
+            background: var(--glass-light);
+            color: var(--light);
+        }
+
+        .calendar-actions button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group i {
+            position: absolute;
+            left: 15px;
+            top: 42px;
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+
+        .background-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-element {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.15;
+        }
+
+        .bg1 {
+            width: 300px;
+            height: 300px;
+            background: var(--primary);
+            top: -100px;
+            right: -50px;
+        }
+
+        .bg2 {
+            width: 200px;
+            height: 200px;
+            background: var(--accent);
+            bottom: -50px;
+            left: -50px;
+        }
+
+        .bg3 {
+            width: 150px;
+            height: 150px;
+            background: var(--neon);
+            top: 30%;
+            left: 20%;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-elements">
+        <div class="bg-element bg1"></div>
+        <div class="bg-element bg2"></div>
+        <div class="bg-element bg3"></div>
+    </div>
+
+    <div class="form-container">
+        <div class="form-header">
+            <h2>{% if student %}Edit Student{% else %}Add New Student{% endif %}</h2>
+            <p>Please fill in the student details below</p>
+        </div>
+        
+        {% if error_message %}
+            <div class="message error">
+                <i class="fas fa-exclamation-circle"></i> {{ error_message }}
+            </div>
+        {% endif %}
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="student_name">Student Name*</label>
+                <!-- <i class="fas fa-user"></i> -->
+                <input type="text" id="student_name" name="student_name" 
+                       value="{% if form_data.student_name %}{{ form_data.student_name }}{% elif student %}{{ student.student_name }}{% endif %}" 
+                       class="form-control" placeholder="Enter Student Name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="Enrollment">Enrollment ID*</label>
+                <!-- <i class="fas fa-id-card"></i> -->
+                <input type="text" id="Enrollment" name="Enrollment"  
+                       value="{% if form_data.Enrollment %}{{ form_data.Enrollment }}{% elif student %}{{ student.Enrollment }}{% endif %}"
+                       class="form-control" {% if not student %}required{% endif %} placeholder="Enter Enrollment NUmber">
+                {% if student %}
+                    <small>Leave blank to keep current Enrollment</small>
+                {% endif %}
+            </div>
+            
+            <div class="form-group calendar-container">
+                <label for="enrollment_date">Enrollment Date*</label>
+                <!-- <i class="fas fa-calendar"></i> -->
+                <input type="text" id="enrollment_date" name="enrollment_date" 
+                       class="form-control" placeholder="Select date and time" readonly>
+                <div class="calendar-icon" id="calendarToggle">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                
+                <div class="date-time-picker" id="dateTimePicker">
+                    <div class="calendar-header">
+                        <button id="prevMonth"><i class="fas fa-chevron-left"></i></button>
+                        <h3 id="currentMonth">June 2023</h3>
+                        <button id="nextMonth"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    
+                    <div class="calendar-grid">
+                        <div class="calendar-day">Sun</div>
+                        <div class="calendar-day">Mon</div>
+                        <div class="calendar-day">Tue</div>
+                        <div class="calendar-day">Wed</div>
+                        <div class="calendar-day">Thu</div>
+                        <div class="calendar-day">Fri</div>
+                        <div class="calendar-day">Sat</div>
+                        
+                        <!-- Calendar dates will be populated by JavaScript -->
+                    </div>
+                    
+                    <div class="calendar-time">
+                        <input type="time" id="selectedTime" value="10:00">
+                    </div>
+                    
+                    <div class="calendar-actions">
+                        <button id="setDateTime">Set Date & Time</button>
+                        <button id="cancelDateTime">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="btn-group">
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-user-plus"></i> {% if student %}Update{% else %}Create{% endif %} Student
+                </button>
+
+                <a href="{% url 'admin_dashboard' %}" class="cancel-btn">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Calendar functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const calendarToggle = document.getElementById('calendarToggle');
+            const dateTimePicker = document.getElementById('dateTimePicker');
+            const setDateTimeBtn = document.getElementById('setDateTime');
+            const cancelDateTimeBtn = document.getElementById('cancelDateTime');
+            const enrollmentDateInput = document.getElementById('enrollment_date');
+            const prevMonthBtn = document.getElementById('prevMonth');
+            const nextMonthBtn = document.getElementById('nextMonth');
+            const currentMonthEl = document.getElementById('currentMonth');
+            const calendarGrid = document.querySelector('.calendar-grid');
+            const timeInput = document.getElementById('selectedTime');
+            
+            let currentDate = new Date();
+            let selectedDate = null;
+            
+            // Toggle calendar visibility
+            calendarToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                dateTimePicker.classList.toggle('active');
+                renderCalendar(currentDate);
+            });
+            
+            // Close calendar when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!dateTimePicker.contains(e.target) && e.target !== calendarToggle) {
+                    dateTimePicker.classList.remove('active');
+                }
+            });
+            
+            // Navigation between months
+            prevMonthBtn.addEventListener('click', function() {
+                currentDate.setMonth(currentDate.getMonth() - 1);
+                renderCalendar(currentDate);
+            });
+            
+            nextMonthBtn.addEventListener('click', function() {
+                currentDate.setMonth(currentDate.getMonth() + 1);
+                renderCalendar(currentDate);
+            });
+            
+            // Set date and time
+            setDateTimeBtn.addEventListener('click', function() {
+                if (selectedDate) {
+                    const time = timeInput.value;
+                    const [hours, minutes] = time.split(':');
+                    selectedDate.setHours(hours);
+                    selectedDate.setMinutes(minutes);
+                    
+                    const formattedDate = selectedDate.toLocaleString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    
+                    enrollmentDateInput.value = formattedDate;
+                    dateTimePicker.classList.remove('active');
+                }
+            });
+            
+            // Cancel date selection
+            cancelDateTimeBtn.addEventListener('click', function() {
+                dateTimePicker.classList.remove('active');
+            });
+            
+            // Render calendar
+            function renderCalendar(date) {
+                const year = date.getFullYear();
+                const month = date.getMonth();
+                
+                // Set current month header
+                currentMonthEl.textContent = date.toLocaleString('default', { 
+                    month: 'long', 
+                    year: 'numeric' 
+                });
+                
+                // Clear previous dates
+                while (calendarGrid.children.length > 7) {
+                    calendarGrid.removeChild(calendarGrid.lastChild);
+                }
+                
+                // Get first day of month and number of days
+                const firstDay = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+                
+                // Add empty cells for days before the first day
+                for (let i = 0; i < firstDay; i++) {
+                    const emptyCell = document.createElement('div');
+                    emptyCell.classList.add('calendar-date');
+                    calendarGrid.appendChild(emptyCell);
+                }
+                
+                // Add date cells
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dateCell = document.createElement('div');
+                    dateCell.classList.add('calendar-date');
+                    dateCell.textContent = day;
+                    
+                    // Check if this date is today
+                    const today = new Date();
+                    if (day === today.getDate() && 
+                        month === today.getMonth() && 
+                        year === today.getFullYear()) {
+                        dateCell.classList.add('selected');
+                        selectedDate = new Date(year, month, day);
+                    }
+                    
+                    // Add click event
+                    dateCell.addEventListener('click', function() {
+                        // Remove selection from other dates
+                        document.querySelectorAll('.calendar-date.selected').forEach(el => {
+                            el.classList.remove('selected');
+                        });
+                        
+                        // Add selection to clicked date
+                        dateCell.classList.add('selected');
+                        selectedDate = new Date(year, month, day);
+                    });
+                    
+                    calendarGrid.appendChild(dateCell);
+                }
+            }
+            
+            // Initialize with current date
+            renderCalendar(currentDate);
+            
+            // Set today as default date
+            const now = new Date();
+            const formattedNow = now.toLocaleString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            enrollmentDateInput.value = formattedNow;
+            selectedDate = now;
+        });
+    </script>
+</body>
+</html>
